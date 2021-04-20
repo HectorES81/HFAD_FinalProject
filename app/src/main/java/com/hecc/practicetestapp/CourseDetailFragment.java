@@ -8,14 +8,25 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class CourseDetailFragment extends Fragment {
-    public long courseId;
+    public static long courseId;
+    public static long questionId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null) {
+            FooterNav footer = new FooterNav();
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.add(R.id.footer_container, footer);
+            ft.addToBackStack(null);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        } else {
+            courseId = savedInstanceState.getLong("courseId");
+            questionId = savedInstanceState.getLong("questionId");
         }
     }
 
@@ -32,7 +43,7 @@ public class CourseDetailFragment extends Fragment {
             //Todo populate question fragment
             TextView questionTitle = (TextView) view.findViewById(R.id.questionTitle);
             //Workout workout = Workout.workouts[(int) workoutId];
-            questionTitle.setText("Android Test Question 1");
+            questionTitle.setText("Course " + courseId + ", Android Test Question" + questionId);
             TextView question = (TextView) view.findViewById(R.id.question);
             question.setText("Here's the first question");
             RadioButton option1 = (RadioButton) view.findViewById(R.id.option1);
@@ -49,9 +60,22 @@ public class CourseDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle saveInstanceState) {
         saveInstanceState.putLong("courseId", courseId);
+        saveInstanceState.putLong("questionId", questionId);
     }
 
     public void setCourseId(long id) {
         this.courseId = id;
+    }
+
+    public void setQuestionId(long id) {
+        this.questionId = id;
+    }
+
+    public long getCourseId() {
+        return CourseDetailFragment.courseId;
+    }
+
+    public long getQuestionId() {
+        return CourseDetailFragment.questionId;
     }
 }

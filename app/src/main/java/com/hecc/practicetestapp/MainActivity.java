@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements CourseListFragmen
             CourseDetailFragment details = new CourseDetailFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             details.setCourseId(id);
+            details.setQuestionId(0);
             ft.replace(R.id.fragment_container,details);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
